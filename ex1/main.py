@@ -4,11 +4,13 @@ from datetime import datetime
 
 def main():
 
+    # Instanciation des services pour récupérer les données de localisation et des personnes à bord de l'ISS.
     location_service = LocationService()
     people_service = PeopleService()
     location_data = location_service.get_location()
     people_data = people_service.get_people()
 
+    # Affichage des informations de localisation et des personnes à bord de l'ISS.
     if location_data and location_data.get('iss_position'):
         print(f"Current location: Date et Heure({datetime.fromtimestamp(location_data['timestamp'])}) Latitude({location_data['iss_position']['latitude']}), Longitude({location_data['iss_position']['longitude']})")
     else:
