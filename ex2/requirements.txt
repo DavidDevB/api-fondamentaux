@@ -1,1 +1,2 @@
-# Aucune dépendance externe.
+python-dotenv
+requests
