@@ -36,9 +36,9 @@ def main():
     average_max_toulouse = sum([toulouse_temp[i]['main']['temp_max'] for i in range(1, 9)]) / 8
 
     # Affichage des températures minimales et maximales moyennes pour chaque ville.
-    print(f"Mérignac: Min({average_min_merignac - 273.15:.2f}°C) / Max({average_max_merignac - 273.15:.2f}°C")
-    print(f"Saint-Géours: Min({average_min_saint_geours - 273.15:.2f}°C) / Max({average_max_saint_geours - 273.15:.2f}°C")
-    print(f"Toulouse: Min({average_min_toulouse - 273.15:.2f}°C) / Max({average_max_toulouse - 273.15:.2f}°C")
+    print(f"Mérignac: Min({average_min_merignac - 273.15:.2f}°C) / Max({average_max_merignac - 273.15:.2f}°C)")
+    print(f"Saint-Géours: Min({average_min_saint_geours - 273.15:.2f}°C) / Max({average_max_saint_geours - 273.15:.2f}°C)")
+    print(f"Toulouse: Min({average_min_toulouse - 273.15:.2f}°C) / Max({average_max_toulouse - 273.15:.2f}°C)")
 
 
 if __name__ == "__main__":

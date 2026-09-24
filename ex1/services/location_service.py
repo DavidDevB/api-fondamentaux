@@ -7,3 +7,5 @@ class LocationService:
 
     def get_location(self):
         return self.location_api.location()
+
+    # May use Pydantic here
