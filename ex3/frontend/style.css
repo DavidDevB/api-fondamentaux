@@ -20,10 +20,124 @@ html {
 
 body {
   margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
   font-family: Arial, Helvetica, sans-serif;
   background: linear-gradient(180deg, #f7f3ee 0%, #f0ebe2 100%);
   color: var(--text);
   line-height: 1.6;
+}
+
+.card {
+  width: min(620px, 100%);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 32px 28px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.card h1,
+.card h2 {
+  margin: 0;
+  color: var(--primary-dark);
+}
+
+.card h1 {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  letter-spacing: -0.04em;
+}
+
+.card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.ville-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.choice {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ville-input:checked + .choice {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(106, 76, 147, 0.2);
+}
+
+#loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 16px;
+  margin: 8px 0 18px;
+  font-size: 0.95rem;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+#meteo-actuelle {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 18px 16px;
+  border-radius: 18px;
+  background: rgba(106, 76, 147, 0.06);
+  border: 1px solid rgba(106, 76, 147, 0.12);
+}
+
+#meteo-actuelle p {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+#temperature,
+#humidite,
+#conditions {
+  color: var(--primary-dark);
+  font-weight: 800;
 }
 
 a {
@@ -452,4 +566,11 @@ main section {
   .section-title h2 {
     font-size: 2rem;
   }
+}
+
+#meteo-actuelle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
 }
