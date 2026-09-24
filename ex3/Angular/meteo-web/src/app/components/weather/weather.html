@@ -1,0 +1,26 @@
+<div
+  id="weather"
+  class="mx-auto flex w-full max-w-md flex-col gap-4 rounded-2xl bg-white p-6 shadow-md"
+>
+  <h2 class="text-xl font-semibold text-slate-800">Météo actuelle</h2>
+
+  <div id="meteo-actuelle" class="flex flex-col gap-4">
+    <div class="flex items-baseline gap-2">
+      <span id="temperature" class="text-4xl font-bold text-sky-600">
+        {{ fiveDaysPredictions(weather()).averageTemperature.toFixed(1) }}
+      </span>
+      <span class="text-lg text-slate-500">°C</span>
+    </div>
+
+    <p id="conditions" class="text-sm capitalize text-slate-600">
+      {{ fiveDaysPredictions(weather()).mostFrequentDescription }}
+    </p>
+
+    <div class="flex items-center gap-2 rounded-lg bg-slate-50 px-4 py-2 text-sm text-slate-600">
+      <span>Humidité</span>
+      <span id="humidite" class="ml-auto font-medium text-slate-800">
+        {{ fiveDaysPredictions(weather()).averageHumidity.toFixed(0) }}%
+      </span>
+    </div>
+  </div>
+</div>
