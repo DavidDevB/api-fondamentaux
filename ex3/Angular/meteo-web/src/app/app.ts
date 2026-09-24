@@ -1,12 +1,18 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CityChoice } from './components/city-choice/city-choice';
+import { Weather } from './components/weather/weather';
+import { WeatherModel } from './models/WeatherModel';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [CityChoice, Weather],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('meteo-web');
+  readonly weather = signal<WeatherModel | undefined>(undefined);
+
+  onWeather = (weather: WeatherModel) => {
+    this.weather.set(weather);
+  };
 }
