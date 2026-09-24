@@ -1,0 +1,54 @@
+<div
+  id="city-choice"
+  class="mx-auto flex w-full max-w-md flex-col gap-4 rounded-2xl bg-white p-6 shadow-md"
+>
+  <div class="flex flex-col gap-1">
+    <h1 class="text-xl font-semibold text-slate-800">Choix de ville</h1>
+    <p class="text-sm text-slate-500">Choisissez une ville pour voir sa météo :</p>
+  </div>
+
+  <div class="flex flex-wrap gap-2" id="choices">
+    <input
+      (change)="toggleCity('merignac')"
+      class="peer/merignac sr-only"
+      type="radio"
+      name="ville"
+      id="ville-merignac"
+      value="merignac"
+      checked
+    />
+    <label
+      class="cursor-pointer rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 peer-checked/merignac:border-sky-500 peer-checked/merignac:bg-sky-500 peer-checked/merignac:text-white"
+      for="ville-merignac"
+      >Mérignac</label
+    >
+
+    <input
+      (change)="toggleCity('saintGeours')"
+      class="peer/saint-geours sr-only"
+      type="radio"
+      name="ville"
+      id="ville-saint-geours"
+      value="saintGeours"
+    />
+    <label
+      class="cursor-pointer rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 peer-checked/saint-geours:border-sky-500 peer-checked/saint-geours:bg-sky-500 peer-checked/saint-geours:text-white"
+      for="ville-saint-geours"
+      >Saint-Geours</label
+    >
+
+    <input
+      (change)="toggleCity('toulouse')"
+      class="peer/toulouse sr-only"
+      type="radio"
+      name="ville"
+      id="ville-toulouse"
+      value="toulouse"
+    />
+    <label
+      class="cursor-pointer rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 peer-checked/toulouse:border-sky-500 peer-checked/toulouse:bg-sky-500 peer-checked/toulouse:text-white"
+      for="ville-toulouse"
+      >Toulouse</label
+    >
+  </div>
+</div>
