@@ -37,30 +37,21 @@ villeToulouseInput.addEventListener("change", async () => {
   }
 });
 
-function updateWeatherDisplay(data) {
-  const temperatureElement = document.getElementById("temperature");
-  const humidityElement = document.getElementById("humidite");
-  const conditionsElement = document.getElementById("conditions");
-
-  if (!data?.list || data.list.length === 0) {
-    temperatureElement.textContent = "--";
-    humidityElement.textContent = "--";
-    conditionsElement.textContent = "Erreur de chargement";
-    return;
+// Regroupe les prévisions par jour (l'API renvoie une entrée toutes les 3h).
+function groupByDay(list) {
+  const days = new Map();
+  for (const item of list) {
+    const date = item.dt_txt.split(" ")[0];
+    if (!days.has(date)) days.set(date, []);
+    days.get(date).push(item);
   }
+  return days;
+}
 
-  const nextFiveDaysForecast = data.list.slice(0, 5 * 8);
-  const forecastToAverage = nextFiveDaysForecast.length > 0 ? nextFiveDaysForecast : data.list;
+function mostFrequentDescription(entries) {
+  const descriptions = entries.map((item) => item.weather?.[0]?.description).filter(Boolean);
 
-  const averageTemperature =
-    forecastToAverage.reduce((sum, item) => sum + (item.main.temp - 273.15), 0) / forecastToAverage.length;
-
-  const averageHumidity =
-    forecastToAverage.reduce((sum, item) => sum + item.main.humidity, 0) / forecastToAverage.length;
-
-  const descriptions = forecastToAverage.map((item) => item.weather?.[0]?.description).filter(Boolean);
-
-  const mostFrequentDescription = descriptions.length
+  return descriptions.length
     ? descriptions
         .sort(
           (a, b) =>
@@ -68,8 +59,34 @@ function updateWeatherDisplay(data) {
         )
         .at(-1)
     : "Temps variable";
+}
 
-  temperatureElement.textContent = averageTemperature.toFixed(2);
-  humidityElement.textContent = averageHumidity.toFixed(0);
-  conditionsElement.textContent = mostFrequentDescription;
+function updateWeatherDisplay(data) {
+  const previsionsElement = document.getElementById("previsions");
+
+  if (!data?.list || data.list.length === 0) {
+    previsionsElement.innerHTML = "<p>Erreur de chargement</p>";
+    return;
+  }
+
+  const days = [...groupByDay(data.list)].slice(1, 6);
+
+  previsionsElement.innerHTML = days
+    .map(([date, entries]) => {
+      const temperatures = entries.map((item) => item.main.temp - 273.15);
+      const minTemperature = Math.min(...temperatures);
+      const maxTemperature = Math.max(...temperatures);
+      const averageHumidity = entries.reduce((sum, item) => sum + item.main.humidity, 0) / entries.length;
+
+      return `
+        <div class="jour-card">
+          <h3>${date}</h3>
+          <p>Min Temp: ${minTemperature.toFixed(2)} °C</p>
+          <p>Max Temp: ${maxTemperature.toFixed(2)} °C</p>
+          <p>Humidity : ${averageHumidity.toFixed(0)} %</p>
+          <p>Conditions : ${mostFrequentDescription(entries)}</p>
+        </div>
+      `;
+    })
+    .join("");
 }

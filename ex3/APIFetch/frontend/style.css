@@ -113,31 +113,33 @@ body {
   font-weight: 700;
 }
 
-#meteo-actuelle {
+.previsions {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-top: 20px;
+}
+
+.jour-card {
   padding: 18px 16px;
   border-radius: 18px;
   background: rgba(106, 76, 147, 0.06);
   border: 1px solid rgba(106, 76, 147, 0.12);
 }
 
-#meteo-actuelle p {
+.jour-card h3 {
+  margin: 0 0 8px;
+  color: var(--primary-dark);
+}
+
+.jour-card p {
   display: flex;
   justify-content: center;
   gap: 8px;
+  margin: 4px 0;
   color: var(--muted);
   font-weight: 600;
-}
-
-#temperature,
-#humidite,
-#conditions {
-  color: var(--primary-dark);
-  font-weight: 800;
 }
 
 a {
@@ -566,11 +568,4 @@ main section {
   .section-title h2 {
     font-size: 2rem;
   }
-}
-
-#meteo-actuelle {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 20px;
 }

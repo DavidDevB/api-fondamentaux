@@ -8,8 +8,8 @@
   </head>
   <body>
     <div class="card">
-      <h1>Choix de ville</h1>
-      <p>Choisissez une ville pour voir sa météo :</p>
+      <h1>City choice</h1>
+      <p>Choose a city to see its weathercast :</p>
 
       <div class="choices" id="choices">
         <input class="ville-input" type="radio" name="ville" id="ville-merignac" checked />
@@ -22,12 +22,8 @@
         <label class="choice" for="ville-toulouse">Toulouse</label>
       </div>
       <div id="loader" class="loader"></div>
-      <h2>Météo actuelle</h2>
-      <div id="meteo-actuelle">
-        <p>Température : <span id="temperature">--</span> °C</p>
-        <p>Humidité : <span id="humidite">--</span> %</p>
-        <p>Conditions : <span id="conditions">--</span></p>
-      </div>
+      <h2>5 days predictions</h2>
+      <div id="previsions" class="previsions"></div>
     </div>
     <script type="module" src="script.js"></script>
   </body>

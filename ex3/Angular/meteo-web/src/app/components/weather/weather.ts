@@ -1,6 +1,41 @@
 import { Component, input } from '@angular/core';
 import { WeatherForecastEntry, WeatherModel } from '../../models/WeatherModel';
 
+export interface DailyForecast {
+  date: string;
+  minTemperature: number;
+  maxTemperature: number;
+  averageHumidity: number;
+  mostFrequentDescription: string;
+}
+
+// Regroupe les prévisions par jour (l'API renvoie une entrée toutes les 3h).
+function groupByDay(list: WeatherForecastEntry[]): Map<string, WeatherForecastEntry[]> {
+  const days = new Map<string, WeatherForecastEntry[]>();
+  for (const entry of list) {
+    const date = entry.dt_txt.split(' ')[0];
+    if (!days.has(date)) days.set(date, []);
+    days.get(date)!.push(entry);
+  }
+  return days;
+}
+
+function mostFrequentDescription(entries: WeatherForecastEntry[]): string {
+  const descriptions = entries
+    .map((item) => item.weather?.[0]?.description)
+    .filter((description): description is string => Boolean(description));
+
+  return descriptions.length
+    ? ([...descriptions]
+        .sort(
+          (a, b) =>
+            descriptions.filter((value) => value === a).length -
+            descriptions.filter((value) => value === b).length,
+        )
+        .at(-1) ?? 'Temps variable')
+    : 'Temps variable';
+}
+
 @Component({
   selector: 'app-weather',
   imports: [],
@@ -10,36 +45,19 @@ import { WeatherForecastEntry, WeatherModel } from '../../models/WeatherModel';
 export class Weather {
   weather = input.required<WeatherModel>();
 
-  fiveDaysPredictions = (weather: WeatherModel) => {
-    const nextFiveDaysForecast = weather.list.slice(0, 5 * 8);
-    const forecastToAverage = nextFiveDaysForecast.length > 0 ? nextFiveDaysForecast : weather.list;
+  dailyForecasts = (weather: WeatherModel): DailyForecast[] => {
+    const days = [...groupByDay(weather.list)].slice(0, 5);
 
-    const averageTemperature =
-      forecastToAverage.reduce(
-        (sum: number, item: WeatherForecastEntry) => sum + (item.main.temp - 273.15),
-        0,
-      ) / forecastToAverage.length;
+    return days.map(([date, entries]) => {
+      const temperatures = entries.map((item) => item.main.temp - 273.15);
 
-    const averageHumidity =
-      forecastToAverage.reduce(
-        (sum: number, item: WeatherForecastEntry) => sum + item.main.humidity,
-        0,
-      ) / forecastToAverage.length;
-
-    const descriptions = forecastToAverage
-      .map((item: WeatherForecastEntry) => item.weather?.[0]?.description)
-      .filter((description): description is string => Boolean(description));
-
-    const mostFrequentDescription = descriptions.length
-      ? ([...descriptions]
-          .sort(
-            (a: string, b: string) =>
-              descriptions.filter((value: string) => value === a).length -
-              descriptions.filter((value: string) => value === b).length,
-          )
-          .at(-1) ?? 'Temps variable')
-      : 'Temps variable';
-
-    return { averageTemperature, averageHumidity, mostFrequentDescription };
+      return {
+        date,
+        minTemperature: Math.min(...temperatures),
+        maxTemperature: Math.max(...temperatures),
+        averageHumidity: entries.reduce((sum, item) => sum + item.main.humidity, 0) / entries.length,
+        mostFrequentDescription: mostFrequentDescription(entries),
+      };
+    });
   };
 }

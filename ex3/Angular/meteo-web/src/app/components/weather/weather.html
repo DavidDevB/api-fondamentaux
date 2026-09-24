@@ -2,25 +2,26 @@
   id="weather"
   class="mx-auto flex w-full max-w-md flex-col gap-4 rounded-2xl bg-white p-6 shadow-md"
 >
-  <h2 class="text-xl font-semibold text-slate-800">Météo actuelle</h2>
+  <h2 class="text-xl font-semibold text-slate-800">Prévisions sur 5 jours</h2>
 
-  <div id="meteo-actuelle" class="flex flex-col gap-4">
-    <div class="flex items-baseline gap-2">
-      <span id="temperature" class="text-4xl font-bold text-sky-600">
-        {{ fiveDaysPredictions(weather()).averageTemperature.toFixed(1) }}
-      </span>
-      <span class="text-lg text-slate-500">°C</span>
-    </div>
+  <div class="flex flex-col gap-4">
+    @for (jour of dailyForecasts(weather()); track jour.date) {
+      <div class="flex flex-col gap-2 rounded-lg bg-slate-50 px-4 py-3">
+        <span class="text-sm font-semibold text-slate-700">{{ jour.date }}</span>
 
-    <p id="conditions" class="text-sm capitalize text-slate-600">
-      {{ fiveDaysPredictions(weather()).mostFrequentDescription }}
-    </p>
+        <div class="flex items-baseline gap-2">
+          <span class="text-2xl font-bold text-sky-600">{{ jour.minTemperature.toFixed(1) }}°C</span>
+          <span class="text-sm text-slate-500">/</span>
+          <span class="text-2xl font-bold text-sky-600">{{ jour.maxTemperature.toFixed(1) }}°C</span>
+        </div>
 
-    <div class="flex items-center gap-2 rounded-lg bg-slate-50 px-4 py-2 text-sm text-slate-600">
-      <span>Humidité</span>
-      <span id="humidite" class="ml-auto font-medium text-slate-800">
-        {{ fiveDaysPredictions(weather()).averageHumidity.toFixed(0) }}%
-      </span>
-    </div>
+        <p class="text-sm capitalize text-slate-600">{{ jour.mostFrequentDescription }}</p>
+
+        <div class="flex items-center gap-2 text-sm text-slate-600">
+          <span>Humidité</span>
+          <span class="ml-auto font-medium text-slate-800">{{ jour.averageHumidity.toFixed(0) }}%</span>
+        </div>
+      </div>
+    }
   </div>
 </div>
