@@ -49,7 +49,27 @@ function updateWeatherDisplay(data) {
     return;
   }
 
-  temperatureElement.textContent = (data.list[0].main.temp - 273.15).toFixed(2);
-  humidityElement.textContent = data.list[0].main.humidity;
-  conditionsElement.textContent = data.list[0].weather[0].description;
+  const nextFiveDaysForecast = data.list.slice(0, 5 * 8);
+  const forecastToAverage = nextFiveDaysForecast.length > 0 ? nextFiveDaysForecast : data.list;
+
+  const averageTemperature =
+    forecastToAverage.reduce((sum, item) => sum + (item.main.temp - 273.15), 0) / forecastToAverage.length;
+
+  const averageHumidity =
+    forecastToAverage.reduce((sum, item) => sum + item.main.humidity, 0) / forecastToAverage.length;
+
+  const descriptions = forecastToAverage.map((item) => item.weather?.[0]?.description).filter(Boolean);
+
+  const mostFrequentDescription = descriptions.length
+    ? descriptions
+        .sort(
+          (a, b) =>
+            descriptions.filter((value) => value === a).length - descriptions.filter((value) => value === b).length,
+        )
+        .at(-1)
+    : "Temps variable";
+
+  temperatureElement.textContent = averageTemperature.toFixed(2);
+  humidityElement.textContent = averageHumidity.toFixed(0);
+  conditionsElement.textContent = mostFrequentDescription;
 }
