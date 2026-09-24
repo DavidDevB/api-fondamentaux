@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Single Page App - Choix de ville</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="card">
+      <h1>Choix de ville</h1>
+      <p>Choisissez une ville pour voir sa météo :</p>
+
+      <div class="choices" id="choices">
+        <input class="ville-input" type="radio" name="ville" id="ville-merignac" checked />
+        <label class="choice" for="ville-merignac">Mérignac</label>
+
+        <input class="ville-input" type="radio" name="ville" id="ville-saint-geours" />
+        <label class="choice" for="ville-saint-geours">Saint-Geours</label>
+
+        <input class="ville-input" type="radio" name="ville" id="ville-toulouse" />
+        <label class="choice" for="ville-toulouse">Toulouse</label>
+      </div>
+      <div>
+        <h2>Météo actuelle</h2>
+        <div id="meteo-actuelle">
+          <p>Température : <span id="temperature">--</span> °C</p>
+          <p>Humidité : <span id="humidite">--</span> %</p>
+          <p>Conditions : <span id="conditions">--</span></p>
+      </div>
+    </div>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
