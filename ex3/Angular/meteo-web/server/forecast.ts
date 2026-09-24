@@ -1,13 +1,14 @@
-const express = require('express');
-const path = require('path');
-const cors = require('cors');
+import express from 'express';
+import path from 'path';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
-const apiKey = process.env.API_KEY;
+const apiKey = process.env['API_KEY'];
 const app = express();
 app.use(cors());
-const PORT = process.env.PORT || 3000;
+const PORT = process.env['PORT'] || 3000;
 
 app.get('/weather', async (req, res) => {
   const { lat, lon } = req.query;
@@ -37,7 +38,7 @@ app.get('/weather', async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       error: "Erreur lors de l'appel à OpenWeatherMap",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 });
